@@ -1,0 +1,143 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CommandTable xmlns="http://schemas.microsoft.com/VisualStudio/2005-10-18/CommandTable" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <!--  This is the file that defines the actual layout and type of the commands.
+        It is divided in different sections (e.g. command definition, command
+        placement, ...), with each defining a specific set of properties.
+        See the comment before each section for more details about how to
+        use it. -->
+
+  <!--  The VSCT compiler (the tool that translates this file into the binary
+        format that VisualStudio will consume) has the ability to run a preprocessor
+        on the vsct file; this preprocessor is (usually) the C++ preprocessor, so
+        it is possible to define includes and macros with the same syntax used
+        in C++ files. Using this ability of the compiler here, we include some files
+        defining some of the constants that we will use inside the file. -->
+
+  <!--This is the file that defines the IDs for all the commands exposed by VisualStudio. -->
+  <Extern href="stdidcmd.h"/>
+
+  <!--This header contains the command ids for the menus provided by the shell. -->
+  <Extern href="vsshlids.h"/>
+
+  <!--The Commands section is where commands, menus, and menu groups are defined.
+      This section uses a Guid to identify the package that provides the command defined inside it. -->
+  <Commands package="guidTabNavigationPackage">
+    <!-- Inside this section we have different sub-sections: one for the menus, another
+    for the menu groups, one for the buttons (the actual commands), one for the combos
+    and the last one for the bitmaps used. Each element is identified by a command id that
+    is a unique pair of guid and numeric identifier; the guid part of the identifier is usually
+    called "command set" and is used to group different command inside a logically related
+    group; your package should define its own command set in order to avoid collisions
+    with command ids defined by other packages. -->
+
+    <!-- In this section you can define new menu groups. A menu group is a container for
+         other menus or buttons (commands); from a visual point of view you can see the
+         group as the part of a menu contained between two lines. The parent of a group
+         must be a menu. -->
+    <Groups>
+      <Group guid="guidTabNavigationPackageCmdSet" id="MyMenuGroup" priority="0x0600">
+        <Parent guid="guidSHLMainMenu" id="IDM_VS_TOOL_MAINMENU"/>
+      </Group>
+
+      <Group guid="guidTabNavigationPackageCmdSet" id="TabNavigationGroup" priority="0x0100">
+        <Parent guid="guidTabNavigationPackageCmdSet" id="TabNavigationMenu"/>        
+      </Group>
+    </Groups>
+
+    <Menus>
+      <Menu guid="guidTabNavigationPackageCmdSet" id="TabNavigationMenu" priority="0x0100" type="Menu">
+        <Parent guid="guidTabNavigationPackageCmdSet" id="MyMenuGroup"/>
+        <Strings>
+          <CommandName>TabNavigation</CommandName>
+          <ButtonText>TabNavigation</ButtonText>
+        </Strings>       
+      </Menu>
+    </Menus>
+    
+    <!--Buttons section. -->
+    <!--This section defines the elements the user can interact with, like a menu command or a button
+        or combo box in a toolbar. -->
+    <Buttons>
+      <!--To define a menu group you have to specify its ID, the parent menu and its display priority.
+          The command is visible and enabled by default. If you need to change the visibility, status, etc, you can use
+          the CommandFlag node.
+          You can add more than one CommandFlag node e.g.:
+              <CommandFlag>DefaultInvisible</CommandFlag>
+              <CommandFlag>DynamicVisibility</CommandFlag>
+          If you do not want an image next to your command, remove the Icon node /> -->
+      <Button guid="guidTabNavigationPackageCmdSet" id="CommandPingPong" priority="0x0100" type="Button">
+        <Parent guid="guidTabNavigationPackageCmdSet" id="TabNavigationGroup" />
+        <CommandFlag>CommandWellOnly</CommandFlag>
+        <Strings>
+          <CommandName>PingPongTab</CommandName>
+          <ButtonText>Ping-Pong</ButtonText>
+          <ToolTipText>Switch between last two active windows(back and forth).</ToolTipText>         
+        </Strings>        
+      </Button>
+
+      <Button guid="guidTabNavigationPackageCmdSet" id="CommandJumpLeft" priority="0x0100" type="Button">
+        <Parent guid="guidTabNavigationPackageCmdSet" id="TabNavigationGroup" />
+        <CommandFlag>CommandWellOnly</CommandFlag>
+        <Strings>
+          <CommandName>CommandJumpLeft</CommandName>
+          <ButtonText>Jump Left</ButtonText>          
+        </Strings>
+      </Button>
+
+      <Button guid="guidTabNavigationPackageCmdSet" id="CommandJumpRight" priority="0x0100" type="Button">
+        <Parent guid="guidTabNavigationPackageCmdSet" id="TabNavigationGroup" />
+        <CommandFlag>CommandWellOnly</CommandFlag>
+        <Strings>
+          <CommandName>CommandJumpRight</CommandName>
+          <ButtonText>Jump Right</ButtonText>          
+        </Strings>
+      </Button>
+
+      <Button guid="guidTabNavigationPackageCmdSet" id="CommandJumpUp" priority="0x0100" type="Button">
+        <Parent guid="guidTabNavigationPackageCmdSet" id="TabNavigationGroup" />
+        <CommandFlag>CommandWellOnly</CommandFlag>
+        <Strings>
+          <CommandName>CommandJumpUp</CommandName>
+          <ButtonText>Jump Up</ButtonText>          
+        </Strings>
+      </Button>
+
+      <Button guid="guidTabNavigationPackageCmdSet" id="CommandJumpDown" priority="0x0100" type="Button">
+        <Parent guid="guidTabNavigationPackageCmdSet" id="TabNavigationGroup" />    
+        <CommandFlag>CommandWellOnly</CommandFlag>
+        <Strings>
+          <CommandName>CommandJumpDown</CommandName>
+          <ButtonText>Jump Down</ButtonText>
+        </Strings>
+      </Button>
+    </Buttons>    
+  </Commands>
+
+  <KeyBindings>
+    <KeyBinding guid="guidTabNavigationPackageCmdSet" id="CommandPingPong" key1="W" mod1="ALT SHIFT" editor="guidVSStd97"></KeyBinding>
+    <KeyBinding guid="guidTabNavigationPackageCmdSet" id="CommandJumpUp" key1="VK_UP" mod1="ALT CONTROL" editor="guidVSStd97"></KeyBinding>
+    <KeyBinding guid="guidTabNavigationPackageCmdSet" id="CommandJumpDown" key1="VK_DOWN" mod1="ALT CONTROL" editor="guidVSStd97"></KeyBinding>
+    <KeyBinding guid="guidTabNavigationPackageCmdSet" id="CommandJumpLeft" key1="VK_LEFT" mod1="ALT CONTROL" editor="guidVSStd97"></KeyBinding>
+    <KeyBinding guid="guidTabNavigationPackageCmdSet" id="CommandJumpRight" key1="VK_RIGHT" mod1="ALT CONTROL" editor="guidVSStd97"></KeyBinding>    
+  </KeyBindings>
+  
+  <Symbols>
+    <!-- This is the package guid. -->
+    <GuidSymbol name="guidTabNavigationPackage" value="{73688a5c-18e7-4c3b-84df-74939b92ba27}" />
+
+    <!-- This is the guid used to group the menu commands together -->
+    <GuidSymbol name="guidTabNavigationPackageCmdSet" value="{629661e4-603b-446f-86b1-9defbda7d529}">
+      <IDSymbol name="MyMenuGroup" value="0x1020" />
+      
+      <IDSymbol name="TabNavigationGroup" value="0x1100"/>
+      <IDSymbol name="TabNavigationMenu" value="0x1200"/>      
+      
+      <IDSymbol name="CommandPingPong" value="0x0100" />
+      <IDSymbol name="CommandJumpLeft" value="0x0101" />
+      <IDSymbol name="CommandJumpRight" value="0x0102" />
+      <IDSymbol name="CommandJumpUp" value="0x0103" />
+      <IDSymbol name="CommandJumpDown" value="0x0104" />
+    </GuidSymbol>
+  </Symbols>
+</CommandTable>
