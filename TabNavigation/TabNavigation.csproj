@@ -68,8 +68,6 @@
       <SubType>Designer</SubType>
     </VSCTCompile>
     <Content Include="index.html" />
-    <Content Include="Resources\FirstCommand.png" />
-    <Content Include="Resources\FirstCommandPackage.ico" />
     <Content Include="stylesheet.css" />
   </ItemGroup>
   <ItemGroup>
@@ -179,6 +177,7 @@
     <EmbeddedResource Include="VSPackage.resx">
       <MergeWithCTO>true</MergeWithCTO>
       <ManifestResourceName>VSPackage</ManifestResourceName>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
