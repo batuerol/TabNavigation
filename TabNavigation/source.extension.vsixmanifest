@@ -2,7 +2,7 @@
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
   <Metadata>
     <Identity Id="TabGroupSwitch.Batuhan Erol.558bb7a5-8973-4193-b614-fddf5f9f4024" Version="1.0" Language="en-US" Publisher="Batuhan Erol" />
-    <DisplayName>TabGroupSwitch</DisplayName>
+    <DisplayName>Tab Navigation</DisplayName>
     <Description xml:space="preserve">Navigate between tabs using keyboard.</Description>
   </Metadata>
   <Installation>
