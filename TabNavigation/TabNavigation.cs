@@ -66,7 +66,6 @@ namespace TabGroupSwitch
             WindowEvents _windowEvents = dte.Events.WindowEvents;
             _windowEvents.WindowActivated += WindowEvents_WindowActivated;
             _windowEvents.WindowClosing += WindowEvents_WindowClosing;
-            _windowEvents.WindowCreated += WindowEvents_WindowCreated;
         }
 
         /// <summary>
@@ -98,26 +97,18 @@ namespace TabGroupSwitch
             Instance = new TabNavigation(package);
         }
 
-        private void WindowEvents_WindowCreated(Window Window)
-        {
-            //throw new NotImplementedException();
-        }
-
         private void WindowEvents_WindowActivated(Window GotFocus, Window LostFocus)
         {
-            if (GotFocus.Kind == "Document")
+            // TODO(batuhan): Maybe add an option to allow switching between same tab group windows?
+
+            // NOTE(batuhan): If the activated window is in the same tab group as the lostfocus one.
+            // Top and Left values are 0.
+            if (GotFocus.Kind == "Document" && GotFocus.Top != 0 && GotFocus.Left != 0)
             {
                 if (LostFocus != null && LostFocus.Kind == "Document")
                 {
                     mLastActiveDocument = LostFocus;
                 }
-                //if (mLastActiveDocument == GotFocus)
-                //{
-                //    if (LostFocus != null && LostFocus.Kind == "Document")
-                //    {
-                //        mLastActiveDocument = LostFocus;
-                //    }
-                //}
             }
             else
             {
@@ -149,9 +140,11 @@ namespace TabGroupSwitch
             bool vertical = commandId == CommandJumpLeft || commandId == CommandJumpRight;
 
             List<Window> activeDocuments = GetActiveDocumentWindows();
+
             // Get focused window.
             Window activeWindow = dte.ActiveDocument.ActiveWindow;
 
+            // Sort the tabs depending on the command.
             if (vertical)
             {
                 activeDocuments.Sort((x, y) => x.Left < y.Left ? -1 : 1);
@@ -177,11 +170,12 @@ namespace TabGroupSwitch
                     ++index;
             }
 
+            // TODO(batuhan): Allow circularity?
             if (index < 0)
                 index += activeDocuments.Count;
+            index %= activeDocuments.Count;
 
-            index %= activeDocuments.Count;            
-            activeDocuments[index].Activate();               
+            activeDocuments[index].Activate();
         }
 
         private void PingPongCallback(object sender, EventArgs e)
@@ -193,6 +187,7 @@ namespace TabGroupSwitch
                 return;
 
             Window temp = dte.ActiveDocument.ActiveWindow;
+
             // TODO(batuhan): Do I actually want to do this?            
             if (mLastActiveDocument == null)
             {
@@ -204,7 +199,6 @@ namespace TabGroupSwitch
             else
             {
                 mLastActiveDocument.Activate();
-                //mLastActiveDocument = temp;
             }
         }
 
