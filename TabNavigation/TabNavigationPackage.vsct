@@ -41,7 +41,7 @@
       </Group>
 
       <Group guid="guidTabNavigationPackageCmdSet" id="TabNavigationGroup" priority="0x0100">
-        <Parent guid="guidTabNavigationPackageCmdSet" id="TabNavigationMenu"/>        
+        <Parent guid="guidTabNavigationPackageCmdSet" id="TabNavigationMenu"/>
       </Group>
     </Groups>
 
@@ -51,10 +51,10 @@
         <Strings>
           <CommandName>TabNavigation</CommandName>
           <ButtonText>TabNavigation</ButtonText>
-        </Strings>       
+        </Strings>
       </Menu>
     </Menus>
-    
+
     <!--Buttons section. -->
     <!--This section defines the elements the user can interact with, like a menu command or a button
         or combo box in a toolbar. -->
@@ -72,8 +72,8 @@
         <Strings>
           <CommandName>PingPongTab</CommandName>
           <ButtonText>Ping-Pong</ButtonText>
-          <ToolTipText>Switch between last two active windows(back and forth).</ToolTipText>         
-        </Strings>        
+          <ToolTipText>Switch between last two active windows(back and forth).</ToolTipText>
+        </Strings>
       </Button>
 
       <Button guid="guidTabNavigationPackageCmdSet" id="CommandJumpLeft" priority="0x0100" type="Button">
@@ -81,7 +81,7 @@
         <CommandFlag>CommandWellOnly</CommandFlag>
         <Strings>
           <CommandName>CommandJumpLeft</CommandName>
-          <ButtonText>Jump Left</ButtonText>          
+          <ButtonText>Jump Left</ButtonText>
         </Strings>
       </Button>
 
@@ -90,7 +90,7 @@
         <CommandFlag>CommandWellOnly</CommandFlag>
         <Strings>
           <CommandName>CommandJumpRight</CommandName>
-          <ButtonText>Jump Right</ButtonText>          
+          <ButtonText>Jump Right</ButtonText>
         </Strings>
       </Button>
 
@@ -99,19 +99,35 @@
         <CommandFlag>CommandWellOnly</CommandFlag>
         <Strings>
           <CommandName>CommandJumpUp</CommandName>
-          <ButtonText>Jump Up</ButtonText>          
+          <ButtonText>Jump Up</ButtonText>
         </Strings>
       </Button>
 
       <Button guid="guidTabNavigationPackageCmdSet" id="CommandJumpDown" priority="0x0100" type="Button">
-        <Parent guid="guidTabNavigationPackageCmdSet" id="TabNavigationGroup" />    
+        <Parent guid="guidTabNavigationPackageCmdSet" id="TabNavigationGroup" />
         <CommandFlag>CommandWellOnly</CommandFlag>
         <Strings>
           <CommandName>CommandJumpDown</CommandName>
           <ButtonText>Jump Down</ButtonText>
         </Strings>
       </Button>
-    </Buttons>    
+
+      <Button guid="guidTabNavigationPackageCmdSet" id="CommandOpenProjectFile" priority="0x0100" type="Button">        
+        <CommandFlag>CommandWellOnly</CommandFlag>
+        <Strings>
+          <CommandName>CommandOpenProjectFile</CommandName>
+          <ButtonText>Open Project File</ButtonText>
+        </Strings>
+      </Button>
+
+      <Button guid="guidTabNavigationPackageCmdSet" id="CommandOpenProjectFile" priority="0x0100" type="Button">
+        <CommandFlag>CommandWellOnly</CommandFlag>
+        <Strings>
+          <CommandName>CommandOpenProjectFileInOtherBuffer</CommandName>
+          <ButtonText>Open Project File in other Buffer</ButtonText>
+        </Strings>
+      </Button>
+    </Buttons>
   </Commands>
 
   <KeyBindings>
@@ -119,9 +135,11 @@
     <KeyBinding guid="guidTabNavigationPackageCmdSet" id="CommandJumpUp" key1="VK_UP" mod1="ALT CONTROL" editor="guidVSStd97"></KeyBinding>
     <KeyBinding guid="guidTabNavigationPackageCmdSet" id="CommandJumpDown" key1="VK_DOWN" mod1="ALT CONTROL" editor="guidVSStd97"></KeyBinding>
     <KeyBinding guid="guidTabNavigationPackageCmdSet" id="CommandJumpLeft" key1="VK_LEFT" mod1="ALT CONTROL" editor="guidVSStd97"></KeyBinding>
-    <KeyBinding guid="guidTabNavigationPackageCmdSet" id="CommandJumpRight" key1="VK_RIGHT" mod1="ALT CONTROL" editor="guidVSStd97"></KeyBinding>    
+    <KeyBinding guid="guidTabNavigationPackageCmdSet" id="CommandJumpRight" key1="VK_RIGHT" mod1="ALT CONTROL" editor="guidVSStd97"></KeyBinding>
+    <KeyBinding guid="guidTabNavigationPackageCmdSet" id="CommandOpenProjectFile" key1="F" mod1="ALT" editor="guidVSStd97"></KeyBinding>
+    <KeyBinding guid="guidTabNavigationPackageCmdSet" id="CommandOpenProjectFileInOtherBuffer" key1="F" mod1="ALT SHIFT" editor="guidVSStd97"></KeyBinding>
   </KeyBindings>
-  
+
   <Symbols>
     <!-- This is the package guid. -->
     <GuidSymbol name="guidTabNavigationPackage" value="{73688a5c-18e7-4c3b-84df-74939b92ba27}" />
@@ -129,15 +147,17 @@
     <!-- This is the guid used to group the menu commands together -->
     <GuidSymbol name="guidTabNavigationPackageCmdSet" value="{629661e4-603b-446f-86b1-9defbda7d529}">
       <IDSymbol name="MyMenuGroup" value="0x1020" />
-      
+
       <IDSymbol name="TabNavigationGroup" value="0x1100"/>
-      <IDSymbol name="TabNavigationMenu" value="0x1200"/>      
-      
+      <IDSymbol name="TabNavigationMenu" value="0x1200"/>
+
       <IDSymbol name="CommandPingPong" value="0x0100" />
       <IDSymbol name="CommandJumpLeft" value="0x0101" />
       <IDSymbol name="CommandJumpRight" value="0x0102" />
       <IDSymbol name="CommandJumpUp" value="0x0103" />
       <IDSymbol name="CommandJumpDown" value="0x0104" />
+      <IDSymbol name="CommandOpenProjectFile" value="0x0105"/>
+      <IDSymbol name="CommandOpenProjectFileInOtherBuffer" value="0x0106"/>
     </GuidSymbol>
   </Symbols>
 </CommandTable>
