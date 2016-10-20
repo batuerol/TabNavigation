@@ -9,6 +9,9 @@ using System.ComponentModel.Design;
 using Microsoft.VisualStudio.Shell;
 using EnvDTE;
 using System.Collections.Generic;
+using Microsoft.VisualStudio.Shell.Interop;
+using System.Collections;
+using System.Windows.Forms;
 
 namespace TabGroupSwitch
 {
@@ -25,6 +28,8 @@ namespace TabGroupSwitch
         public const int CommandJumpRight = 0x0102;
         public const int CommandJumpUp = 0x0103;
         public const int CommandJumpDown = 0x0104;
+        public const int CommandOpenProjectFile = 0x0105;
+        public const int CommandOpenProjectFileInOtherBuffer = 0x0106;
 
         /// <summary>
         /// Command menu group (command set GUID).
@@ -59,6 +64,9 @@ namespace TabGroupSwitch
                 commandService.AddCommand(new MenuCommand(this.JumpCallback, new CommandID(CommandSet, CommandJumpDown)));
                 commandService.AddCommand(new MenuCommand(this.JumpCallback, new CommandID(CommandSet, CommandJumpLeft)));
                 commandService.AddCommand(new MenuCommand(this.JumpCallback, new CommandID(CommandSet, CommandJumpRight)));
+
+                commandService.AddCommand(new MenuCommand(this.OpenProjectFilesCallback, new CommandID(CommandSet, CommandOpenProjectFile)));
+                commandService.AddCommand(new MenuCommand(this.OpenProjectFilesCallback, new CommandID(CommandSet, CommandOpenProjectFileInOtherBuffer)));
             }
 
             DTE dte = (DTE)(this.ServiceProvider.GetService(typeof(DTE)));
@@ -66,6 +74,8 @@ namespace TabGroupSwitch
             WindowEvents _windowEvents = dte.Events.WindowEvents;
             _windowEvents.WindowActivated += WindowEvents_WindowActivated;
             _windowEvents.WindowClosing += WindowEvents_WindowClosing;
+
+            m_ProjectItems = new HashSet<ProjectItem>();
         }
 
         /// <summary>
@@ -216,6 +226,99 @@ namespace TabGroupSwitch
             }
 
             return result;
+        }
+
+        private HashSet<ProjectItem> m_ProjectItems;
+        private void OpenProjectFilesCallback(object sender, EventArgs e)
+        {
+            int commandId = ((MenuCommand)sender).CommandID.ID;
+
+            EnvDTE.DTE dte;
+            dte = (EnvDTE.DTE)Package.GetGlobalService(typeof(EnvDTE.DTE));
+
+            EnvDTE.Solution solution = dte.Solution;
+            EnvDTE.Projects projects = solution.Projects;
+
+            IEnumerator projectIterator = projects.GetEnumerator();
+            while (projectIterator.MoveNext())
+            {
+                IEnumerator items = ((Project)projectIterator.Current).ProjectItems.GetEnumerator();
+                while (items.MoveNext())
+                {
+                    ProjectItem item = (ProjectItem)items.Current;
+                    // TODO(batuhan): Create a settings file/class for which extensions to be shown.                     
+                    GetFiles(item);                   
+                }
+            }
+        }
+
+        private void GetFiles(ProjectItem item)
+        {
+            if (item.ProjectItems == null && IsValidExtansion(item.Name))
+            {
+                m_ProjectItems.Add(item);
+            }
+
+            IEnumerator items = item.ProjectItems.GetEnumerator();
+            while (items.MoveNext())
+            {
+                ProjectItem current = (ProjectItem)items.Current;
+                //m_ProjectItems.Add(GetFiles(current));
+                GetFiles(current);
+            }
+
+            if (IsValidExtansion(item.Name))
+            {
+                m_ProjectItems.Add(item);
+            }
+        }
+
+        // TODO(batuhan): Maybe parse these extensions from a file?
+        private static string[] ValidExtensions =
+        {
+            "c",
+            "cpp",
+            "cxx",
+            "cs",
+            "h",
+            "hpp",
+            "html",
+            "css",
+            "txt",
+            "vsct",
+            "resx",
+            "vsixmanifest",
+            "config",
+            "snk",
+            "xml",
+            "xaml",
+            "settings",
+            "js",
+            "aspx",
+            "cshtml",
+            "jpg",
+            "png",
+            "ico",
+            "targets",
+        };
+        private bool IsValidExtansion(string name)
+        {
+
+            string[] tokens = name.Split('.');
+            if (tokens.Length == 0)
+            {
+                return false;
+            }
+
+            string extension = tokens[tokens.Length - 1];
+
+            foreach (string item in ValidExtensions)
+            {
+                if (extension == item)
+                    return true;
+            }
+
+            return false;
         }
     }
 }
